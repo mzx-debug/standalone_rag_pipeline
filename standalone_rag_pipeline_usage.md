@@ -28,7 +28,7 @@
 
 ## 2.2 运行资源
 
-你需要准备：
+需要准备：
 
 - FAISS 索引文件：`--index-path`
 - 语料文件或语料数据集：`--corpus-path`
@@ -72,14 +72,14 @@ What is photosynthesis?
 EOF
 ```
 
-## 4.2 运行命令（你当前这套路径）
+## 4.2 运行命令
 
 ```bash
 python standalone_rag_pipeline.py \
-  --index-path /data/home/mazhenxiang/Hedra-RAG-EXP/HedraRAG/data/index_0319/msacro/IVF4096/ivf.index \
-  --corpus-path /data/home/mazhenxiang/Hedra-RAG-EXP/data/msmarco_2k.jsonl \
-  --generator-model Qwen/Qwen2.5-1.5B-Instruct \
-  --queries-file ./queries.txt \
+  --index-path /索引路径
+  --corpus-path /语料路径
+  --generator-model /大模型名
+  --queries-file /问题路径
   --b 1 \
   --xE 1 \
   --xR 0 \
@@ -121,36 +121,5 @@ cat ./rag_smoke_min.json
 - `--max-output-len`：生成最大 token 数
 - `--output-json`：保存结果摘要路径
 
-## 7. 常见问题
 
-## 7.1 403 Gated Repo
-
-报错示例：`Cannot access gated repo ... meta-llama/Llama-3.1-8B-Instruct`
-
-原因：当前 HuggingFace 账号无权限访问 gated 模型。
-
-处理方式：
-
-- 申请并通过该模型访问权限，然后 `huggingface-cli login`
-- 或先换非 gated 模型做测试，例如 `Qwen/Qwen2.5-1.5B-Instruct`
-
-## 7.2 `top_doc_snippet` 为空
-
-常见原因：`index` 与 `corpus` 不是同一套构建数据（文档 ID 不对齐）。
-
-建议：使用构建该索引时的原始 corpus 做对齐测试。
-
-## 7.3 NCCL 退出警告
-
-`destroy_process_group() was not called ...` 常见于进程退出阶段，冒烟测试可先忽略；若长期运行再考虑在框架层补优雅退出。
-
-## 8. 结果说明（输出 JSON）
-
-关键字段：
-
-- `num_queries`：本次处理 query 数
-- `avg_embedding_ms` / `avg_retrieval_ms` / `avg_generation_ms`：三阶段平均耗时
-- `throughput_qps`：吞吐（query/s）
-- `samples`：样例 query、检索片段和答案
-- `per_batch`：每批次详细耗时
 
